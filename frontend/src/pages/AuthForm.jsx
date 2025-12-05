@@ -1,79 +1,17 @@
-
-import React, { useState } from "react";
-import api from "../api/axiosInstance";
-import SummaryApi from "../common/index";
-import { ToastContainer, toast } from "react-toastify";
+import React from "react";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
+import useAuthForm from "../hooks/useAuthForm";
 
 export default function AuthForm() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [isLogin, setIsLogin] = useState(true);
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
-  const redirectByRole = (user) => {
-    if (user.role === "admin") {
-      navigate("/admin/users");
-    } else {
-      navigate("/dashboard");
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // sign in
-      if (isLogin) {
-        const res = await api.post(SummaryApi.login.url, {
-          email: form.email,
-          password: form.password,
-        });
-
-        const user = res.data.user;
-
-        dispatch(setCredentials({ token: res.data.token, user }));
-        toast.success("Login successful");
-
-        redirectByRole(user); 
-      } 
-      
-      // sign up
-      else {
-        if (!form.name) {
-          toast.error("Name required");
-          setLoading(false);
-          return;
-        }
-
-        const res = await api.post(SummaryApi.signUP.url, {
-          name: form.name,
-          email: form.email,
-          password: form.password,
-        });
-
-        const user = res.data.user;
-
-        dispatch(setCredentials({ token: res.data.token, user }));
-        toast.success("Signup successful");
-
-        redirectByRole(user); 
-      }
-    } catch (err) {
-      toast.error(err.response?.data?.msg || "Something went wrong");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    isLogin,
+    setIsLogin,
+    form,
+    loading,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm();
 
   return (
     <div

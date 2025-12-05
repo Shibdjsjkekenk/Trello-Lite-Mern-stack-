@@ -1,68 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Board from "../components/Board";
-import { useSelector, useDispatch } from "react-redux";
-import api from "../api/axiosInstance";
-import SummaryApi from "../common/index";
-import { logout } from "../store/authSlice";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FiLogOut } from "react-icons/fi";
+import useBoards from "../hooks/useBoards";
 
 export default function BoardPage() {
-  const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [boards, setBoards] = useState([]);
-  const [activeBoard, setActiveBoard] = useState(null);
-  const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  // ---------------- FETCH ALL BOARDS ----------------
-  const loadBoards = async () => {
-    try {
-      const res = await api.get(SummaryApi.getBoards.url);
-      setBoards(res.data);
-    } catch (err) {
-      console.error("Error loading boards:", err);
-    }
-  };
-
-  useEffect(() => {
-    loadBoards();
-  }, []);
-
-  // crate board
-  const createBoard = async () => {
-    if (!title) return;
-
-    setLoading(true);
-    try {
-      const res = await api.post(SummaryApi.createBoard.url, { title });
-
-      await loadBoards();
-      setTitle("");
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.msg || "Create board failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // logout
-  const handleLogout = () => {
-    dispatch(logout());
-    toast.success("Logout successful");
-    navigate("/");
-  };
+  const {
+    user,
+    boards,
+    activeBoard,
+    setActiveBoard,
+    title,
+    setTitle,
+    loading,
+    createBoard,
+    handleLogout,
+  } = useBoards();
 
   return (
     <div className="container mt-4">
       <header className="d-flex justify-content-between align-items-center mb-3">
         <h4 className="text-black">Trello Lite</h4>
 
-        {/* User + Logout */}
         <div className="d-flex align-items-center gap-2">
           <strong>{user?.name}</strong>
           <FiLogOut
