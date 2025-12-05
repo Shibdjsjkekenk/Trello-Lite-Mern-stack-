@@ -83,7 +83,7 @@ export default function BoardPage() {
           onChange={(e) => setTitle(e.target.value)}
         />
         <button
-          className="btn btn-primary"
+          className="btn btn-primary text-nowrap"
           onClick={createBoard}
           disabled={loading}
         >

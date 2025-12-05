@@ -23,7 +23,7 @@ export default function ListColumn({ list, boardId, refresh }) {
 
   return (
     <div className="card p-2" style={{ minWidth: 280, maxHeight: "80vh", overflowY: "auto" }}>
-      <h6>{list.title}</h6>
+      <h6 className="text-black">{list.title}</h6>
 
       <Droppable droppableId={list._id}>
         {(provided) => (

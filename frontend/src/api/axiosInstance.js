@@ -2,10 +2,10 @@ import axios from "axios";
 import { backendDomin, getAuthHeaders } from "../common/index";
 
 const api = axios.create({
-  baseURL: backendDomin,
+  baseURL: backendDomin, // Automatically prepend backend domain
 });
 
-// optional: attach token before each request
+// Auto attach token before each API call
 api.interceptors.request.use((config) => {
   const headers = getAuthHeaders();
   config.headers = { ...(config.headers || {}), ...headers };

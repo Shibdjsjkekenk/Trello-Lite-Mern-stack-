@@ -3,7 +3,6 @@ import api from "../api/axiosInstance";
 import SummaryApi from "../common/index";
 import ListColumn from "./ListColumn";
 import { DragDropContext } from "@hello-pangea/dnd";
-import ActivityLog from "./ActivityLog";
 
 export default function Board({ boardId }) {
   const [board, setBoard] = useState(null);
@@ -59,7 +58,7 @@ export default function Board({ boardId }) {
 
       <div className="d-flex gap-2 align-items-start mb-3">
         <input className="form-control" placeholder="New list title" value={newListTitle} onChange={(e) => setNewListTitle(e.target.value)} />
-        <button className="btn btn-secondary" onClick={createList}>Add List</button>
+        <button className="btn btn-secondary text-nowrap" onClick={createList}>Add List</button>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
@@ -70,9 +69,7 @@ export default function Board({ boardId }) {
         </div>
       </DragDropContext>
 
-      <div className="mt-4">
-        <ActivityLog boardId={boardId} />
-      </div>
+     
     </div>
   );
 }

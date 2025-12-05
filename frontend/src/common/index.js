@@ -1,4 +1,5 @@
-export const backendDomin = "http://localhost:8080";
+// export const backendDomin = "http://localhost:8080";
+export const backendDomin = import.meta.env.VITE_BACKEND_URL;
 
 // Auth Header
 export const getAuthHeaders = () => {
