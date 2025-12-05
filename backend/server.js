@@ -8,7 +8,10 @@ connectDB();
 
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",                                      
+      "https://fabulous-croquembouche-44cc86.netlify.app" 
+    ],
     credentials: true,
   })
 );
